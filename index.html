@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GBTI | GYM-BTI 健身人格测试</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN SYSTEM — "Gym Brutalist × Candy Pop"
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg: #F5F0E8;
+  --bg-warm: #EDE7DA;
+  --surface: #FFFFFF;
+  --surface-alt: #FFF8ED;
+  --ink: #1A1A1A;
+  --ink-2: #555;
+  --ink-3: #999;
+  --ink-4: #CCC;
+  --accent: #FF4D00;
+  --accent-soft: rgba(255,77,0,0.08);
+  --accent-mid: rgba(255,77,0,0.15);
+  --green: #00C853;
+  --purple: #7C3AED;
+  --blue: #2196F3;
+  --pink: #E91E8A;
+  --yellow: #FFC107;
+  --font-mono: 'Space Mono', 'SF Mono', monospace;
+  --font-cn: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 4px 4px 0px #1A1A1A;
+  --shadow-sm: 2px 2px 0px #1A1A1A;
+  --shadow-accent: 4px 4px 0px var(--accent);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { width:100%; min-height:100vh; overflow-x:hidden; font-family:var(--font-cn); background:var(--bg); color:var(--ink); }
+#root { width:100%; min-height:100vh; }
+
+/* Noise texture overlay */
+.app::after {
+  content:''; position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:0.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ═══════ ANIMATIONS ═══════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes scaleIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+@keyframes slideRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideLeft { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes bounceIn { 0%{opacity:0;transform:scale(0.3)} 50%{transform:scale(1.05)} 70%{transform:scale(0.95)} 100%{opacity:1;transform:scale(1)} }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes spin { to{transform:rotate(360deg)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes barGrow { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes shake { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-3deg)} 75%{transform:rotate(3deg)} }
+@keyframes confetti-fall {
+  0% { transform:translateY(-10vh) rotate(0deg); opacity:1; }
+  100% { transform:translateY(105vh) rotate(720deg); opacity:0; }
+}
+@keyframes typeReveal {
+  0% { width:0; } 100% { width:100%; }
+}
+
+/* ═══════ LAYOUT ═══════ */
+.app { max-width:420px; margin:0 auto; min-height:100vh; position:relative; overflow:hidden; }
+
+/* ═══════════════════════════════════════════════
+   START PAGE
+   ═══════════════════════════════════════════════ */
+.start-page {
+  min-height:100vh; display:flex; flex-direction:column;
+  padding:48px 24px 32px; position:relative;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255,77,0,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(124,58,237,0.05) 0%, transparent 50%),
+    var(--bg);
+}
+.start-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--ink); color:var(--bg); padding:6px 14px;
+  border-radius:100px; font-family:var(--font-mono); font-size:11px;
+  letter-spacing:1px; font-weight:700; width:fit-content;
+  animation:fadeUp 0.6s ease both;
+}
+.start-badge::before { content:''; width:6px; height:6px; background:var(--accent); border-radius:50%; }
+.start-title {
+  font-size:42px; font-weight:900; line-height:1.15; margin:20px 0 0;
+  animation:fadeUp 0.7s ease 0.1s both;
+}
+.start-title em { font-style:normal; color:var(--accent); position:relative; }
+.start-title em::after {
+  content:''; position:absolute; bottom:2px; left:0; right:0; height:8px;
+  background:var(--yellow); z-index:-1; border-radius:2px; opacity:0.6;
+}
+.start-subtitle {
+  font-size:15px; color:var(--ink-2); line-height:1.7; margin-top:14px;
+  animation:fadeUp 0.7s ease 0.2s both;
+}
+
+/* Character strip */
+.start-strip {
+  flex:1; display:flex; align-items:center; justify-content:center;
+  padding:16px 0; overflow:hidden; position:relative;
+}
+.start-strip-inner {
+  display:flex; gap:12px; animation:fadeUp 0.8s ease 0.3s both;
+}
+.start-char-card {
+  width:72px; height:72px; border-radius:var(--radius-sm);
+  border:2px solid var(--ink); background:var(--surface);
+  box-shadow:var(--shadow-sm); overflow:hidden;
+  animation:float 3s ease-in-out infinite;
+  flex-shrink:0;
+}
+.start-char-card img { width:100%; height:100%; object-fit:cover; }
+.start-char-card:nth-child(even) { animation-delay:0.4s; }
+.start-char-card:nth-child(3n) { animation-delay:0.8s; }
+
+/* Marquee */
+.start-marquee {
+  padding:14px 0; overflow:hidden; position:relative;
+  animation:fadeUp 0.7s ease 0.35s both;
+}
+.start-marquee-track {
+  display:flex; gap:24px; white-space:nowrap;
+  animation:marquee 20s linear infinite;
+  font-family:var(--font-mono); font-size:11px; color:var(--ink-3);
+  letter-spacing:2px;
+}
+.start-marquee-track span { display:inline-block; }
+.start-marquee-track span::before { content:'◆ '; color:var(--accent); }
+
+.start-bottom { animation:fadeUp 0.7s ease 0.4s both; }
+.start-btn {
+  width:100%; padding:18px; border:2.5px solid var(--ink);
+  border-radius:var(--radius); background:var(--accent);
+  color:#FFF; font-family:var(--font-cn); font-size:17px;
+  font-weight:900; cursor:pointer; letter-spacing:2px;
+  box-shadow:var(--shadow); transition:all 0.15s;
+  position:relative; overflow:hidden;
+}
+.start-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0px var(--ink); }
+.start-meta {
+  display:flex; justify-content:center; gap:16px; margin-top:16px;
+  font-family:var(--font-mono); font-size:11px; color:var(--ink-3);
+  letter-spacing:1px;
+}
+.start-meta span { display:flex; align-items:center; gap:4px; }
+
+/* ═══════════════════════════════════════════════
+   QUESTION PAGE
+   ═══════════════════════════════════════════════ */
+.q-page {
+  min-height:100vh; display:flex; flex-direction:column;
+  padding:0 20px 28px; background:var(--bg);
+}
+.q-header { padding:16px 0; display:flex; align-items:center; gap:10px; }
+.q-back {
+  width:36px; height:36px; border-radius:var(--radius-sm);
+  border:2px solid var(--ink); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:16px; box-shadow:var(--shadow-sm);
+  transition:all 0.15s; flex-shrink:0;
+}
+.q-back:active { transform:translate(1px,1px); box-shadow:1px 1px 0px var(--ink); }
+.q-prog-wrap { flex:1; }
+.q-prog-track {
+  height:8px; background:var(--surface); border:1.5px solid var(--ink);
+  border-radius:100px; overflow:hidden;
+}
+.q-prog-fill {
+  height:100%; background:var(--accent); transition:width 0.4s cubic-bezier(0.4,0,0.2,1);
+  border-radius:100px;
+}
+.q-prog-text {
+  font-family:var(--font-mono); font-size:12px; color:var(--ink-2);
+  text-align:right; margin-top:4px; letter-spacing:1px;
+}
+.q-body { flex:1; display:flex; flex-direction:column; justify-content:center; padding:8px 0; }
+.q-dim-badge {
+  display:inline-flex; padding:4px 10px; border-radius:100px;
+  font-family:var(--font-mono); font-size:10px; font-weight:700;
+  letter-spacing:2px; width:fit-content; margin-bottom:12px;
+}
+.q-dim-EI { background:rgba(255,77,0,0.1); color:var(--accent); border:1px solid rgba(255,77,0,0.2); }
+.q-dim-SN { background:rgba(124,58,237,0.1); color:var(--purple); border:1px solid rgba(124,58,237,0.2); }
+.q-dim-TF { background:rgba(33,150,243,0.1); color:var(--blue); border:1px solid rgba(33,150,243,0.2); }
+.q-dim-JP { background:rgba(0,200,83,0.1); color:var(--green); border:1px solid rgba(0,200,83,0.2); }
+.q-num {
+  font-family:var(--font-mono); font-size:56px; font-weight:700;
+  color:var(--ink); line-height:1; margin-bottom:4px; opacity:0.08;
+}
+.q-text {
+  font-size:22px; font-weight:900; line-height:1.5; margin-bottom:28px;
+  color:var(--ink);
+}
+.q-opts { display:flex; flex-direction:column; gap:10px; }
+.q-opt {
+  width:100%; text-align:left; padding:16px 18px;
+  border-radius:var(--radius-sm); border:2px solid var(--ink);
+  background:var(--surface); color:var(--ink);
+  font-family:var(--font-cn); font-size:15px; font-weight:500;
+  line-height:1.5; cursor:pointer; transition:all 0.15s;
+  box-shadow:var(--shadow-sm); position:relative;
+  display:flex; align-items:center; gap:12px;
+}
+.q-opt:active { transform:translate(1px,1px); box-shadow:1px 1px 0px var(--ink); }
+.q-opt:hover { background:var(--accent-soft); }
+.q-opt .q-opt-letter {
+  width:28px; height:28px; border-radius:50%; border:2px solid var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:12px; font-weight:700;
+  flex-shrink:0; background:var(--bg-warm);
+}
+.q-opt.sel {
+  background:var(--accent); color:#FFF; border-color:var(--ink);
+  box-shadow:var(--shadow);
+}
+.q-opt.sel .q-opt-letter { background:rgba(255,255,255,0.3); border-color:rgba(255,255,255,0.5); color:#FFF; }
+
+/* ═══════════════════════════════════════════════
+   CALCULATING PAGE
+   ═══════════════════════════════════════════════ */
+.calc-page {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:40px 24px;
+  background:var(--bg);
+}
+.calc-icon {
+  width:80px; height:80px; border-radius:20px;
+  border:3px solid var(--ink); background:var(--surface);
+  box-shadow:var(--shadow); display:flex; align-items:center;
+  justify-content:center; font-size:36px; margin-bottom:24px;
+  animation:shake 0.5s ease-in-out infinite;
+}
+.calc-text {
+  font-size:18px; font-weight:700; text-align:center;
+  margin-bottom:8px; color:var(--ink);
+}
+.calc-sub {
+  font-family:var(--font-mono); font-size:12px; color:var(--ink-3);
+  letter-spacing:2px; margin-bottom:24px;
+}
+.calc-dots { display:flex; gap:6px; }
+.calc-dot {
+  width:10px; height:10px; border-radius:50%;
+  background:var(--accent); animation:pulse 1s ease-in-out infinite;
+}
+.calc-dot:nth-child(2) { animation-delay:0.2s; }
+.calc-dot:nth-child(3) { animation-delay:0.4s; }
+
+/* ═══════════════════════════════════════════════
+   RESULT PAGE
+   ═══════════════════════════════════════════════ */
+.r-page {
+  min-height:100vh; padding:0 0 40px;
+  background:var(--bg);
+}
+
+/* Confetti */
+.confetti-container { position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden; }
+.confetti-piece {
+  position:absolute; width:10px; height:10px; top:-20px;
+  animation:confetti-fall 3s ease-in forwards;
+}
+
+/* Result Hero */
+.r-hero {
+  padding:32px 24px 24px; text-align:center;
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--accent-soft) 0%, transparent 60%),
+    var(--bg);
+}
+.r-eyebrow {
+  font-family:var(--font-mono); font-size:11px; letter-spacing:4px;
+  color:var(--ink-3); margin-bottom:16px;
+  animation:fadeUp 0.5s ease both;
+}
+.r-char-wrap {
+  display:flex; justify-content:center; margin-bottom:16px;
+  animation:bounceIn 0.8s ease both;
+}
+.r-char-img {
+  width:200px; height:200px; border-radius:24px;
+  border:3px solid var(--ink); box-shadow:6px 6px 0px var(--ink);
+  overflow:hidden; background:var(--surface);
+}
+.r-char-img img { width:100%; height:100%; object-fit:cover; }
+.r-code {
+  font-family:var(--font-mono); font-size:14px; font-weight:700;
+  color:var(--accent); letter-spacing:3px; margin-bottom:4px;
+  animation:fadeUp 0.6s ease 0.15s both;
+}
+.r-name {
+  font-size:30px; font-weight:900; line-height:1.3; margin-bottom:6px;
+  animation:fadeUp 0.6s ease 0.2s both;
+}
+.r-mbti-badge {
+  display:inline-flex; gap:4px; margin-bottom:16px;
+  animation:fadeUp 0.6s ease 0.25s both;
+}
+.r-mbti-letter {
+  width:32px; height:32px; border-radius:8px; border:2px solid var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:14px; font-weight:700;
+  box-shadow:var(--shadow-sm);
+}
+.r-mbti-letter:nth-child(1) { background:#FFE0CC; color:var(--accent); }
+.r-mbti-letter:nth-child(2) { background:#E8D5F5; color:var(--purple); }
+.r-mbti-letter:nth-child(3) { background:#BBDEFB; color:var(--blue); }
+.r-mbti-letter:nth-child(4) { background:#C8F7D5; color:var(--green); }
+.r-quote {
+  font-size:15px; color:var(--ink-2); font-style:italic; line-height:1.7;
+  padding:0 12px; animation:fadeUp 0.6s ease 0.3s both;
+}
+.r-quote::before { content:'\201C'; font-size:24px; color:var(--accent); vertical-align:text-top; margin-right:2px; }
+.r-quote::after { content:'\201D'; font-size:24px; color:var(--accent); vertical-align:text-bottom; margin-left:2px; }
+
+/* Cards */
+.r-cards { padding:0 20px; }
+.r-card {
+  background:var(--surface); border:2px solid var(--ink);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:20px; margin-bottom:16px;
+}
+.r-card-header {
+  display:flex; align-items:center; gap:8px; margin-bottom:14px;
+}
+.r-card-icon {
+  width:28px; height:28px; border-radius:8px; border:1.5px solid var(--ink);
+  display:flex; align-items:center; justify-content:center; font-size:14px;
+  box-shadow:1px 1px 0 var(--ink); flex-shrink:0;
+}
+.r-card-title {
+  font-family:var(--font-mono); font-size:11px; font-weight:700;
+  letter-spacing:2px; color:var(--ink-2);
+}
+.r-card-body {
+  font-size:14px; line-height:2; color:var(--ink-2);
+}
+
+/* Dimension bars */
+.r-dim-row { margin-bottom:14px; }
+.r-dim-row:last-child { margin-bottom:0; }
+.r-dim-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;
+}
+.r-dim-labels { display:flex; justify-content:space-between; font-size:12px; }
+.r-dim-label { font-family:var(--font-mono); font-size:11px; font-weight:700; }
+.r-dim-label.active { color:var(--ink); }
+.r-dim-label.inactive { color:var(--ink-4); }
+.r-dim-pct { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); }
+.r-dim-track {
+  height:10px; background:var(--bg-warm); border:1.5px solid var(--ink);
+  border-radius:100px; overflow:hidden; position:relative;
+}
+.r-dim-fill {
+  position:absolute; top:0; height:100%; border-radius:100px;
+  transform-origin:left; animation:barGrow 0.8s ease-out both;
+}
+.r-dim-fill.left { left:0; }
+.r-dim-fill.right { right:0; transform-origin:right; }
+
+/* Traits section */
+.r-traits-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+}
+.r-trait-item {
+  padding:10px 12px; background:var(--bg-warm);
+  border-radius:var(--radius-sm); border:1.5px solid var(--ink-4);
+}
+.r-trait-emoji { font-size:18px; margin-bottom:4px; }
+.r-trait-label { font-size:12px; font-weight:700; color:var(--ink); }
+.r-trait-desc { font-size:11px; color:var(--ink-3); margin-top:2px; }
+
+/* Best/Worst match */
+.r-match-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.r-match-card {
+  background:var(--bg-warm); border-radius:var(--radius-sm);
+  border:1.5px solid var(--ink); padding:14px; text-align:center;
+  box-shadow:var(--shadow-sm);
+}
+.r-match-label {
+  font-family:var(--font-mono); font-size:10px; font-weight:700;
+  letter-spacing:2px; margin-bottom:8px;
+}
+.r-match-label.best { color:var(--green); }
+.r-match-label.worst { color:var(--accent); }
+.r-match-img {
+  width:56px; height:56px; border-radius:12px; border:1.5px solid var(--ink);
+  overflow:hidden; margin:0 auto 6px; background:var(--surface);
+}
+.r-match-img img { width:100%; height:100%; object-fit:cover; }
+.r-match-name { font-size:13px; font-weight:700; }
+
+/* Action buttons */
+.r-actions { padding:0 20px; margin-top:8px; }
+.btn-primary {
+  width:100%; padding:16px; border:2.5px solid var(--ink);
+  border-radius:var(--radius); background:var(--accent); color:#FFF;
+  font-family:var(--font-cn); font-size:16px; font-weight:900;
+  cursor:pointer; box-shadow:var(--shadow); transition:all 0.15s;
+  letter-spacing:1px; margin-bottom:10px;
+}
+.btn-primary:active { transform:translate(2px,2px); box-shadow:2px 2px 0px var(--ink); }
+.btn-secondary {
+  width:100%; padding:14px; border:2px solid var(--ink);
+  border-radius:var(--radius); background:var(--surface); color:var(--ink);
+  font-family:var(--font-cn); font-size:15px; font-weight:700;
+  cursor:pointer; box-shadow:var(--shadow-sm); transition:all 0.15s;
+  margin-bottom:10px;
+}
+.btn-secondary:active { transform:translate(1px,1px); box-shadow:1px 1px 0px var(--ink); }
+.btn-ghost {
+  width:100%; padding:14px; border:none; background:transparent;
+  color:var(--ink-3); font-family:var(--font-cn); font-size:14px;
+  cursor:pointer; text-decoration:underline; text-underline-offset:3px;
+}
+
+/* Share overlay */
+.share-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; animation:fadeIn 0.3s ease; backdrop-filter:blur(4px);
+}
+.share-card {
+  width:320px; background:var(--surface); border:2.5px solid var(--ink);
+  border-radius:var(--radius); box-shadow:6px 6px 0px var(--ink);
+  padding:28px 20px 20px; text-align:center; position:relative;
+  animation:scaleIn 0.4s ease;
+}
+.share-close {
+  position:absolute; top:10px; right:12px; width:28px; height:28px;
+  border-radius:50%; border:1.5px solid var(--ink); background:var(--bg-warm);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700;
+}
+.share-char-img {
+  width:120px; height:120px; border-radius:20px; border:2.5px solid var(--ink);
+  box-shadow:var(--shadow); margin:0 auto 12px; overflow:hidden; background:var(--surface);
+}
+.share-char-img img { width:100%; height:100%; object-fit:cover; }
+.share-name { font-size:20px; font-weight:900; margin-bottom:4px; }
+.share-quote {
+  font-size:13px; color:var(--ink-2); font-style:italic;
+  line-height:1.6; margin-bottom:16px; padding:0 8px;
+}
+.share-footer {
+  font-size:11px; color:var(--ink-3); margin-top:12px;
+  padding-top:12px; border-top:1.5px dashed var(--ink-4);
+}
+
+/* Toast */
+.toast {
+  position:fixed; top:50px; left:50%; transform:translateX(-50%);
+  background:var(--ink); color:var(--bg); padding:10px 24px;
+  border-radius:var(--radius-sm); font-size:13px; font-weight:700;
+  z-index:200; animation:fadeUp 0.3s ease; box-shadow:var(--shadow);
+}
+
+/* Utility */
+.anim-delay-1 { animation-delay:0.1s !important; }
+.anim-delay-2 { animation-delay:0.2s !important; }
+.anim-delay-3 { animation-delay:0.3s !important; }
+.anim-delay-4 { animation-delay:0.4s !important; }
+.anim-delay-5 { animation-delay:0.5s !important; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width:0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useMemo, useRef } = React;
+
+/* ═══════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════ */
+
+const QUESTIONS = [
+  {
+    id:1, dim:"EI", dimLabel:"健身社交力", text:"你最理想的健身氛围是？",
+    options:[
+      { letter:"A", text:"人多热闹，互相加油打气", score:{E:2}, sub:{} },
+      { letter:"B", text:"安静人少，戴耳机沉浸训练", score:{I:2}, sub:{} },
+      { letter:"C", text:"旁边有人但互不打扰就好", score:{I:1}, sub:{} }
+    ]
+  },
+  {
+    id:2, dim:"EI", dimLabel:"健身社交力", text:"练完之后你第一件事？",
+    options:[
+      { letter:"A", text:"拍个照发朋友圈/小红书", score:{E:2}, sub:{IN:1} },
+      { letter:"B", text:"洗完澡默默回家", score:{I:2}, sub:{} },
+      { letter:"C", text:"跟认识的人聊两句再走", score:{E:1}, sub:{OUT:1} }
+    ]
+  },
+  {
+    id:3, dim:"EI", dimLabel:"健身社交力", text:"有人约你一起去健身？",
+    options:[
+      { letter:"A", text:"太好了！一个人练太闷了", score:{E:2}, sub:{OUT:1} },
+      { letter:"B", text:"不太想，怕打乱我的节奏", score:{I:2}, sub:{} },
+      { letter:"C", text:"去同一个场地但各练各的", score:{I:1}, sub:{} }
+    ]
+  },
+  {
+    id:4, dim:"SN", dimLabel:"训练探索欲", text:"你怎么选训练动作？",
+    options:[
+      { letter:"A", text:"经典动作反复练就够了", score:{S:2}, sub:{OUT:1} },
+      { letter:"B", text:"喜欢找新动作保持新鲜感", score:{N:2}, sub:{} },
+      { letter:"C", text:"基础为主偶尔尝点新花样", score:{S:1}, sub:{} }
+    ]
+  },
+  {
+    id:5, dim:"SN", dimLabel:"训练探索欲", text:"你对健身装备什么态度？",
+    options:[
+      { letter:"A", text:"够用就行，不讲究", score:{S:2}, sub:{OUT:1} },
+      { letter:"B", text:"必须研究最新最好的装备", score:{N:2}, sub:{IN:1} },
+      { letter:"C", text:"关键几样要好其余随缘", score:{S:1}, sub:{} }
+    ]
+  },
+  {
+    id:6, dim:"SN", dimLabel:"训练探索欲", text:"有人推荐你一个新运动方式？",
+    options:[
+      { letter:"A", text:"不了，我现在的方式挺好", score:{S:2}, sub:{} },
+      { letter:"B", text:"马上去试！万一更适合呢", score:{N:2}, sub:{OUT:1} },
+      { letter:"C", text:"先查查资料了解一下再说", score:{N:1}, sub:{IN:1} }
+    ]
+  },
+  {
+    id:7, dim:"TF", dimLabel:"决策驱动力", text:"练了一个月没啥变化？",
+    options:[
+      { letter:"A", text:"复盘数据，找问题调方案", score:{T:2}, sub:{IN:1} },
+      { letter:"B", text:"可能最近心情不好影响了", score:{F:2}, sub:{} },
+      { letter:"C", text:"无所谓，开心就好", score:{F:1}, sub:{} }
+    ]
+  },
+  {
+    id:8, dim:"TF", dimLabel:"决策驱动力", text:"什么让你坚持健身？",
+    options:[
+      { letter:"A", text:"看到数据和力量在涨", score:{T:2}, sub:{} },
+      { letter:"B", text:"练完整个人心情超好", score:{F:2}, sub:{} },
+      { letter:"C", text:"身材变好挺有成就感的", score:{T:1}, sub:{} }
+    ]
+  },
+  {
+    id:9, dim:"TF", dimLabel:"决策驱动力", text:"看到有人训练姿势不对？",
+    options:[
+      { letter:"A", text:"忍不住过去纠正一下", score:{T:2}, sub:{OUT:1} },
+      { letter:"B", text:"如果是朋友会委婉提醒", score:{F:2}, sub:{} },
+      { letter:"C", text:"跟我没关系我继续练", score:{T:1}, sub:{IN:1} }
+    ]
+  },
+  {
+    id:10, dim:"JP", dimLabel:"计划执行力", text:"你的训练计划长什么样？",
+    options:[
+      { letter:"A", text:"每天练什么都提前排好了", score:{J:2}, sub:{} },
+      { letter:"B", text:"到了看心情，哪有空练哪", score:{P:2}, sub:{} },
+      { letter:"C", text:"大方向有但经常灵活调整", score:{P:1}, sub:{} }
+    ]
+  },
+  {
+    id:11, dim:"JP", dimLabel:"计划执行力", text:"你一般什么时候去健身？",
+    options:[
+      { letter:"A", text:"固定时间雷打不动", score:{J:2}, sub:{OUT:1} },
+      { letter:"B", text:"看心情有空就去", score:{P:2}, sub:{} },
+      { letter:"C", text:"大致固定偶尔调一下", score:{J:1}, sub:{} }
+    ]
+  },
+  {
+    id:12, dim:"JP", dimLabel:"计划执行力", text:"训练中突然想做计划外动作？",
+    options:[
+      { letter:"A", text:"忍住，按计划来", score:{J:2}, sub:{} },
+      { letter:"B", text:"想做就做，灵感最重要", score:{P:2}, sub:{OUT:1} },
+      { letter:"C", text:"快速试一下再回到计划", score:{P:1}, sub:{IN:1} }
+    ]
+  }
+];
+
+const DIM_COLORS = { EI:'#FF4D00', SN:'#7C3AED', TF:'#2196F3', JP:'#00C853' };
+
+const PERSONALITIES = [
+  { id:1, code:"YLKL", name:"哑铃杀手", mbti:"ESTJ", sub:null,
+    quote:"在我手里，没有举不起来的铁。",
+    img:"chars/YLKL.png",
+    bestMatch:"DBFG", worstMatch:"ZJKB",
+    traits:["纪律铁人","力量信仰者","执行力MAX","时间管理大师"],
+    desc:"你是健身房里最像「上班」的人。每次训练都有严格的计划、精确的组数和不可动摇的时间表。你的手掌常年有茧，蛋白粉永远不会过期——因为你从不缺勤。别人做3组你做8组，别人用空杆你上4片。你的训练日志比论文还严谨。",
+    advice:"偶尔需要提醒自己——健身也可以是好玩的。如果计划被打乱（比如器械被占），你的内心戏会比肌肉酸痛还剧烈。试着享受过程，不只是结果。" },
+  { id:2, code:"YJCP", name:"瑜伽垫评测专家", mbti:"INFJ", sub:null,
+    quote:"垫子不软，灵魂不安。",
+    img:"chars/YJCP.png",
+    bestMatch:"JJDT", worstMatch:"JSFQ",
+    traits:["灵魂修行者","细节控","仪式感满分","柔韧性之神"],
+    desc:"你不是在健身，你是在「修行」。瑜伽垫的厚度、材质、防滑性、环保等级你如数家珍，甚至能写一篇3000字长文分析25款瑜伽垫的优劣。对你来说，运动不止是身体的事，它是精神、呼吸和宇宙的对话。",
+    advice:"有时过于追求仪式感——如果今天线香忘带了，你宁可不练也不将就。对器材的挑剔程度可能已经超过了对训练本身的重视。放下执念，赤脚也能冥想。" },
+  { id:3, code:"ZJKB", name:"专业组间休息大师", mbti:"INTP", sub:"OUT",
+    quote:"举铁10秒，玩手机10分钟，摆就完了。",
+    img:"chars/ZJKB.png",
+    bestMatch:"YLKL", worstMatch:"LJBY",
+    traits:["理论大师","知识储备王","摸鱼之王","组间时间管理师"],
+    desc:"你的训练知识储备量可能比实际训练量大十倍。你能准确说出三角肌后束最佳激活角度，但上一次力竭是三个月前。训练2小时实际有效训练时间37分钟。不过你可以跟任何人讨论训练原理讨论到天亮。",
+    advice:"行动力是你的致命伤。你知道100种增肌方法，但你需要的只是放下手机再做一组。组间休息1分钟和10分钟的区别，你其实最清楚。" },
+  { id:4, code:"YZDB", name:"运动装杯大师", mbti:"ESFP", sub:"IN",
+    quote:"拍照两小时，流汗五分钟。",
+    img:"chars/YZDB.png",
+    bestMatch:"JSFQ", worstMatch:"YLKL",
+    traits:["社交达人","颜值即正义","装备控","朋友圈MVP"],
+    desc:"你去健身房的第一步不是热身，是换上今天精心搭配的outfit。lululemon、Nike Pro、Gymshark——你的训练服比训练记录多。镜子是你最常用的「器械」，你的手机相册里健身自拍占40%。",
+    advice:"有时候「看起来在练」比「真的在练」重要。要小心别让社交媒体绑架了你的训练——不发朋友圈的训练，也是有效的训练。" },
+  { id:5, code:"CSDZ", name:"引体向上冥想者", mbti:"INFP", sub:"OUT",
+    quote:"挂在上面思考人生，也是一种核心训练。",
+    img:"chars/CSDZ.png",
+    bestMatch:"YJCP", worstMatch:"YZDB",
+    traits:["哲学家","自重训练信徒","禅意气场","精神力max"],
+    desc:"你在引体向上杠上挂着的时间可能比实际拉起来的时间长。但这不是偷懒——你是在「与身体对话」。每一次悬挂都是对地球引力的尊重，每一次力竭都是对自我极限的诗意探索。",
+    advice:"容易陷入「感觉不对就不练」的循环。有时候不需要等灵感来了才开始——先拉起来，灵感会跟着来的。" },
+  { id:6, code:"JMGC", name:"筋膜枪收藏家", mbti:"ISTJ", sub:"IN",
+    quote:"虽然不练，但我的枪必须是最贵的。",
+    img:"chars/JMGC.png",
+    bestMatch:"WXBS", worstMatch:"SDJZ",
+    traits:["装备党","科技信仰者","后勤保障","康复专家"],
+    desc:"你可能不是健身房练得最狠的人，但你一定是装备最齐全的人。筋膜枪至少三把，护膝护肘护腕一个不少，运动手表两块。你相信「工欲善其事，必先利其器」。",
+    advice:"装备≠训练。有时候少研究一下转速和振幅，多做几组硬拉，效果会来得更直接。不过你已经知道了——你只是还在「准备阶段」。" },
+  { id:7, code:"JSFQ", name:"健身房气氛组长", mbti:"ENFJ", sub:null,
+    quote:"我声音大，是因为看着挺努力了吧。",
+    img:"chars/JSFQ.png",
+    bestMatch:"YZDB", worstMatch:"YJCP",
+    traits:["社交核心","氛围制造机","天生领导力","感染力爆棚"],
+    desc:"整个健身房的BGM其实是你的声音。你做每一组都配有音效——「嗷！」「走！」「再来一个！」你不是在自言自语，你是在给全场加buff。整个健身房你认识80%的人，剩下20%也认识你（靠声音）。",
+    advice:"有时候过于投入「气氛」而忘了自己的训练。另外，旁边在冥想的人可能对你有意见——小声一点也是一种温柔。" },
+  { id:8, code:"PBJS", name:"跑步机散步专家", mbti:"ISFJ", sub:null,
+    quote:"只要坡度调得高，走路也能当有氧。",
+    img:"chars/PBJS.png",
+    bestMatch:"CHSZ", worstMatch:"LJBY",
+    traits:["佛系养生人","舒适区守护者","持久力惊人","关节友好大使"],
+    desc:"你对健身的态度是「来了就是锻炼」。跑步机速度永远3.5-4.5之间，坡度调到12就是「高强度训练」了。你追求的是一种「正在运动」的状态，而非运动本身的结果。在跑步机上看完了三部韩剧。",
+    advice:"可能需要偶尔突破一下舒适区。试试把速度从4调到6，你会发现自己比想象中能跑。不过你的关节比猛跑的人健康得多——佛系有佛系的胜利。" },
+  { id:9, code:"CHSZ", name:"有氧区划水冠军", mbti:"ISTP", sub:null,
+    quote:"划水就等于游泳，怎么不算锻炼呢？",
+    img:"chars/CHSZ.png",
+    bestMatch:"PBJS", worstMatch:"DBFG",
+    traits:["效率优化师","最小投入理论家","心理满足专家","自我认知清晰"],
+    desc:"你把「以最少的努力获得最大的心理满足」做到了极致。椭圆机阻力1档、划船机最轻力度来回摆——但你会精确地待够45分钟，这样就可以心安理得地说「今天练了」。",
+    advice:"你已经掌握了「去」健身房的习惯，这是90%的人做不到的。现在只需要稍微提升一下强度，你的身体变化就会开始出现了。" },
+  { id:10, code:"DBFG", name:"蛋白粉品鉴师", mbti:"ENTJ", sub:null,
+    quote:"这一口，是肌肉的味道。",
+    img:"chars/DBFG.png",
+    bestMatch:"YLKL", worstMatch:"QPCL",
+    traits:["营养学霸","增肌狂魔","数据控","厨房实验家"],
+    desc:"对你来说训练只是增肌系统的一个环节——更重要的是「吃」。你能准确报出鸡胸肉每100克的蛋白质含量，BCAA的最佳摄入时间窗口。你已经尝过市面上超过20种蛋白粉，能盲品出品牌。",
+    advice:"有时过于执着于宏量营养素比例可能让你忘了「吃」本身也是一种享受。偶尔吃一顿不计算热量的饭，不会让你前功尽弃的。" },
+  { id:11, code:"SDJZ", name:"深蹲架形象大使", mbti:"ESTP", sub:null,
+    quote:"只要蹲得够久，别人就抢不走架子。",
+    img:"chars/SDJZ.png",
+    bestMatch:"YLKL", worstMatch:"YZDB",
+    traits:["硬核王者","领地意识最强","腿王认证","下肢怪物"],
+    desc:"深蹲架是你的王座，谁也别想抢。你到健身房的第一件事不是换衣服，是先看深蹲架有没有人。你的腿围是别人的两倍，你对「腿日」的恐惧为零——你恐惧的是「不练腿」的日子。",
+    advice:"可能需要注意上半身的均衡发展——除非你的目标就是成为「下半身怪物」。另外，跟别人分享一下深蹲架也是可以的。" },
+  { id:12, code:"LJBY", name:"力竭边缘试探者", mbti:"ENTP", sub:null,
+    quote:"再做一个？no，是一直做。",
+    img:"chars/LJBY.png",
+    bestMatch:"SDJZ", worstMatch:"PBJS",
+    traits:["冒险家","永不服输","突破力极强","心理韧性王"],
+    desc:"「再做一个」是你的口头禅，也是你的人生态度。你每次训练都会挑战极限——不是因为计划这么写的，而是因为觉得「应该还能再来一个」。你的PR每周都在更新，你受伤的频率也是。",
+    advice:"请善待你的关节和韧带——它们不像肌肉恢复得那么快。学会区分「好的力竭」和「危险的力竭」，偶尔保留一点余量，下次可以推得更重。" },
+  { id:13, code:"QPCL", name:"欺骗餐理论学家", mbti:"ENFP", sub:null,
+    quote:"吃的就是欺骗餐咯，锻炼就是为了吃。",
+    img:"chars/QPCL.png",
+    bestMatch:"NCHT", worstMatch:"DBFG",
+    traits:["快乐至上","自我和解大师","理论体系王","美食探索家"],
+    desc:"在你的世界观里健身的终极目的就是「吃得心安理得」。你发明了一整套理论来合理化每一顿大餐：训练日摄入窗口、碳循环、代谢提升需要热量冲击……结论永远指向「今天可以吃」。",
+    advice:"如果你的目标真的包含减脂，可能需要重新审视一下「欺骗餐」的频率。一周七天有五天是欺骗餐的话，那就不叫欺骗餐了，那叫正餐。" },
+  { id:14, code:"SLYZ", name:"当代草食者", mbti:"ISFP", sub:null,
+    quote:"这棵沙拉叶子的颜色，决定了我的心情。",
+    img:"chars/SLYZ.png",
+    bestMatch:"YJCP", worstMatch:"QPCL",
+    traits:["美学家","精致生活代言人","微量营养素王","高颜值饮食"],
+    desc:"你的沙拉不是吃的，是艺术品。紫甘蓝的颜色要对、牛油果的切面要美、鹰嘴豆的摆放要有设计感——拍完照才能动筷子。你相信「你吃什么就是什么」，所以你选择做一个色彩丰富的沙拉。",
+    advice:"蛋白质摄入可能不太够——沙拉虽好，但增肌需要更多蛋白质和碳水。偶尔需要「粗犷」一点，一大碗牛肉面比一盘精致沙拉更能支撑高强度训练。" },
+  { id:15, code:"NCHT", name:"奶茶赎罪券持有者", mbti:"ESFJ", sub:null,
+    quote:"喝完这杯无糖的，我就去跑两圈。",
+    img:"chars/NCHT.png",
+    bestMatch:"QPCL", worstMatch:"DCBG",
+    traits:["自我救赎者","罪恶感驱动型","动态平衡大师","奶茶鉴赏家"],
+    desc:"你的运动动机永远是「赎罪」。中午喝了杯奶茶——晚上跑三公里消化掉。你的训练强度跟前一天的饮食罪恶感成正比。无糖奶茶是你和健康饮食之间的最后一道防线。",
+    advice:"不必把吃喝和运动对立起来——它们不是一个「犯罪-赎罪」的循环。你可以享受奶茶不带罪恶感，也可以跑步不带惩罚性质。放过自己，反而会跑得更远。" },
+  { id:16, code:"DCBG", name:"代餐饼干试吃员", mbti:"INTJ", sub:null,
+    quote:"为了效率，我可以把吃饭变成任务。",
+    img:"chars/DCBG.png",
+    bestMatch:"DBFG", worstMatch:"QPCL",
+    traits:["极致效率主义","未来学家","数据驱动","目标导向"],
+    desc:"在你眼里吃饭是一个需要被优化的「流程」。如果一块饼干能提供一顿饭的营养，为什么还要花30分钟坐下来吃？你追求的是时间和营养的最优解。你的excel里有一个sheet专门记录每日营养摄入。",
+    advice:"吃饭也是生活的一部分——偶尔跟朋友坐下来吃顿火锅聊聊天，比一根能量棒的营养价值高得多。效率不是生活的全部。" },
+  { id:17, code:"GBTZ", name:"广播体操复古潮人", mbti:"ISTJ", sub:"OUT",
+    quote:"第八套广播体操，才是永恒的时尚。",
+    img:"chars/GBTZ.png",
+    bestMatch:"GYDY", worstMatch:"YZDB",
+    traits:["怀旧主义者","全民运动传承人","坚持力王者","经典永流传"],
+    desc:"当所有人都在追逐CrossFit、HIIT和Tabata的时候，你回归了最经典的第八套广播体操。你不是在运动，你是在致敬——致敬那个操场上全校一起做操的年代。你的每一个动作都标准到可以当教学视频。",
+    advice:"可以在广播体操的基础上尝试加入一些负重训练——经典可以是起点而不是终点。另外，在健身房里放广播体操音乐可能需要耳机。" },
+  { id:18, code:"GYDY", name:"公园大爷模仿者", mbti:"ESFP", sub:"OUT",
+    quote:"单杠大回环，我是小区最靓的仔。",
+    img:"chars/GYDY.png",
+    bestMatch:"CSDZ", worstMatch:"JMGC",
+    traits:["野生健身家","街头体操之王","自重控制力强","功能性训练本质"],
+    desc:"你不需要健身房。单杠、双杠、石墩子——公园里的一切都是你的器械。你最崇拜的不是施瓦辛格，而是小区里70岁还能做大回环的大爷。你的目标是成为「小区里最能耍的年轻人」。",
+    advice:"花式动作虽然酷，但注意安全——公园的单杠和专业器械质量不同。纯自重训练在增肌上有上限，如果想进一步进步可以考虑加入负重训练。" },
+  { id:19, code:"JJDT", name:"居家地毯翻滚者", mbti:"INFP", sub:"IN",
+    quote:"只要心中有海，地毯就是瑜伽馆。",
+    img:"chars/JJDT.png",
+    bestMatch:"YJCP", worstMatch:"JSFQ",
+    traits:["想象力大师","宅家运动发明家","零成本健身","沙发旁的战士"],
+    desc:"你的客厅就是你的道场。一块地毯、一个瑜伽垫、一部手机——你就能跟着B站UP主完成一整套训练。你最大的优势是「不用出门」，最大的挑战也是「不用出门」——因为沙发就在旁边，它一直在叫你。",
+    advice:"居家训练最大的挑战是自律——没有人监督的时候太容易放弃。试试设定一个固定时间、固定时长的训练习惯。另外偶尔出门体验一下社交的快乐也不错。" },
+  { id:20, code:"WXBS", name:"微信步数刷分黑客", mbti:"INTP", sub:"IN",
+    quote:"手机绑在狗身上，我也能上排行榜。",
+    img:"chars/WXBS.png",
+    bestMatch:"JMGC", worstMatch:"YLKL",
+    traits:["数据极客","规则漏洞利用大师","竞争意识强","游戏化思维"],
+    desc:"你可能不是运动量最大的人，但你一定是「看起来」运动量最大的人。你精通各种刷步技巧，研究过不同品牌手机计步器的灵敏度差异。微信运动排行榜上你永远是前三名。",
+    advice:"步数只是运动的一个维度——10000步散步和30分钟力量训练的健康效益完全不同。试试把你对排行榜的执着转移到举重PR或者跑步配速上，你会解锁一个全新的世界。" }
+];
+
+/* Personality lookup helpers */
+const P_BY_CODE = {};
+PERSONALITIES.forEach(p => { P_BY_CODE[p.code] = p; });
+
+/* ═══════════════════════════════════════
+   SCORING ENGINE
+   ═══════════════════════════════════════ */
+function calcResult(answers) {
+  const scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+  const sub = { OUT:0, IN:0 };
+
+  answers.forEach((optIdx, qIdx) => {
+    const opt = QUESTIONS[qIdx].options[optIdx];
+    Object.entries(opt.score).forEach(([k,v]) => { scores[k] += v; });
+    Object.entries(opt.sub).forEach(([k,v]) => { sub[k] += v; });
+  });
+
+  const mbti = [
+    scores.E > scores.I ? 'E' : (scores.E === scores.I ? 'I' : 'I'),
+    scores.S > scores.N ? 'S' : (scores.S === scores.N ? 'N' : 'N'),
+    scores.T > scores.F ? 'T' : (scores.T === scores.F ? 'F' : 'F'),
+    scores.J > scores.P ? 'J' : (scores.J === scores.P ? 'P' : 'P'),
+  ];
+  // Fix: proper comparison
+  mbti[0] = scores.E > scores.I ? 'E' : 'I';
+  mbti[1] = scores.S > scores.N ? 'S' : 'N';
+  mbti[2] = scores.T > scores.F ? 'T' : 'F';
+  mbti[3] = scores.J > scores.P ? 'J' : 'P';
+
+  const mbtiStr = mbti.join('');
+  const subDir = sub.OUT >= sub.IN ? 'OUT' : 'IN';
+
+  // Find matching personality
+  let match = PERSONALITIES.find(p => p.mbti === mbtiStr && p.sub === null);
+  if (!match) {
+    match = PERSONALITIES.find(p => p.mbti === mbtiStr && p.sub === subDir);
+  }
+  if (!match) {
+    match = PERSONALITIES.find(p => p.mbti === mbtiStr);
+  }
+  if (!match) match = PERSONALITIES[0]; // fallback
+
+  const dims = {
+    EI: { left:scores.E, right:scores.I, leftLabel:'E', rightLabel:'I', winner:mbti[0], color:'#FF4D00' },
+    SN: { left:scores.S, right:scores.N, leftLabel:'S', rightLabel:'N', winner:mbti[1], color:'#7C3AED' },
+    TF: { left:scores.T, right:scores.F, leftLabel:'T', rightLabel:'F', winner:mbti[2], color:'#2196F3' },
+    JP: { left:scores.J, right:scores.P, leftLabel:'J', rightLabel:'P', winner:mbti[3], color:'#00C853' }
+  };
+
+  return { personality: match, mbti: mbtiStr, dims, scores, sub };
+}
+
+/* ═══════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════ */
+
+function StartPage({ onStart }) {
+  const previewCodes = ["YLKL","JSFQ","QPCL","JJDT","SDJZ"];
+  const marqueeText = "GYM-BTI PERSONALITY TEST · 20 FITNESS TYPES · 12 QUESTIONS · 4 DIMENSIONS · FIND YOUR GYM ALTER EGO · ";
+  return (
+    <div className="start-page">
+      <div className="start-badge">GYM-BTI TEST 2026</div>
+      <div className="start-title">
+        <em>GBTI</em><br/>GYM-BTI
+      </div>
+      <div className="start-subtitle">
+        20种健身人格 × 4维特质扫描 × 专属MBTI编码<br/>
+        12道灵魂拷问，找到你在健身房里的真实身份。
+      </div>
+
+      <div className="start-strip">
+        <div className="start-strip-inner">
+          {previewCodes.map((code, i) => (
+            <div key={code} className="start-char-card" style={{ animationDelay:`${i*0.3}s` }}>
+              <img src={`chars/${code}.png`} alt="" loading="lazy"/>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="start-marquee">
+        <div className="start-marquee-track">
+          {[0,1].map(i => (
+            <span key={i}>{marqueeText}</span>
+          ))}
+          {[2,3].map(i => (
+            <span key={i}>{marqueeText}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="start-bottom">
+        <button className="start-btn" onClick={onStart}>
+          开始测试 →
+        </button>
+        <div className="start-meta">
+          <span>12 QUESTIONS</span>
+          <span>•</span>
+          <span>2 MIN</span>
+          <span>•</span>
+          <span>20 TYPES</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function QuestionPage({ qi, answers, onAnswer, onBack }) {
+  const q = QUESTIONS[qi];
+  const progress = ((qi) / QUESTIONS.length) * 100;
+  const [animDir, setAnimDir] = useState('right');
+  const [animKey, setAnimKey] = useState(0);
+
+  useEffect(() => { setAnimKey(k => k+1); }, [qi]);
+
+  const handleSelect = (i) => {
+    setAnimDir('right');
+    setTimeout(() => onAnswer(i), 200);
+  };
+  const handleBack = () => {
+    setAnimDir('left');
+    setTimeout(() => onBack(), 100);
+  };
+
+  const dimNames = { EI:'健身社交力', SN:'训练探索欲', TF:'决策驱动力', JP:'计划执行力' };
+
+  return (
+    <div className="q-page">
+      <div className="q-header">
+        {qi > 0 && <button className="q-back" onClick={handleBack}>←</button>}
+        <div className="q-prog-wrap">
+          <div className="q-prog-track">
+            <div className="q-prog-fill" style={{ width:progress+'%' }}/>
+          </div>
+          <div className="q-prog-text">{qi+1} / {QUESTIONS.length}</div>
+        </div>
+      </div>
+      <div className="q-body" key={animKey}
+           style={{ animation:`${animDir==='right'?'slideRight':'slideLeft'} 0.3s ease-out` }}>
+        <div className={`q-dim-badge q-dim-${q.dim}`}>
+          {dimNames[q.dim] || q.dim}
+        </div>
+        <div className="q-num">{String(qi+1).padStart(2,'0')}</div>
+        <div className="q-text">{q.text}</div>
+        <div className="q-opts">
+          {q.options.map((opt, i) => (
+            <button key={i}
+              className={`q-opt ${answers[qi]===i ? 'sel' : ''}`}
+              onClick={() => handleSelect(i)}>
+              <span className="q-opt-letter">{opt.letter}</span>
+              <span>{opt.text}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CalcPage() {
+  const emojis = ["🏋️","💪","🧬","🔬"];
+  const texts = ["分析你的健身DNA...","计算人格维度...","匹配你的GYM-BTI...","生成人格报告..."];
+  const [ti, setTi] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setTi(i => (i+1) % texts.length), 1200);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="calc-page">
+      <div className="calc-icon">{emojis[ti]}</div>
+      <div className="calc-text">{texts[ti]}</div>
+      <div className="calc-sub">ANALYZING...</div>
+      <div className="calc-dots">
+        <div className="calc-dot"/><div className="calc-dot"/><div className="calc-dot"/>
+      </div>
+    </div>
+  );
+}
+
+function Confetti() {
+  const colors = ['#FF4D00','#7C3AED','#FFC107','#00C853','#2196F3','#E91E8A'];
+  const pieces = Array.from({length:40}, (_, i) => ({
+    id:i, left:Math.random()*100, delay:Math.random()*2, dur:2+Math.random()*2,
+    color:colors[i%colors.length], size:6+Math.random()*8,
+    shape:Math.random()>0.5?'50%':'2px'
+  }));
+  return (
+    <div className="confetti-container">
+      {pieces.map(p => (
+        <div key={p.id} className="confetti-piece" style={{
+          left:p.left+'%', animationDelay:p.delay+'s', animationDuration:p.dur+'s',
+          background:p.color, width:p.size+'px', height:p.size+'px',
+          borderRadius:p.shape
+        }}/>
+      ))}
+    </div>
+  );
+}
+
+function ResultPage({ result, onRetry }) {
+  const { personality:p, mbti, dims } = result;
+  const [showShare, setShowShare] = useState(false);
+  const [toast, setToast] = useState('');
+  const [showConfetti, setShowConfetti] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowConfetti(false), 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const bestP = P_BY_CODE[p.bestMatch];
+  const worstP = P_BY_CODE[p.worstMatch];
+
+  const showToast = (msg) => { setToast(msg); setTimeout(()=>setToast(''), 2000); };
+  const handleCopy = () => {
+    const text = `【GYM-BTI健身人格测试】我是「${p.name}」(${p.code})！\n"${p.quote}"\n我的健身MBTI是 ${mbti}，你是什么类型？来测测 →`;
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(() => { showToast('已复制到剪贴板'); setShowShare(false); });
+    } else showToast('长按复制文字分享');
+  };
+
+  return (
+    <div className="r-page">
+      {showConfetti && <Confetti/>}
+      {toast && <div className="toast">{toast}</div>}
+
+      {/* Hero */}
+      <div className="r-hero">
+        <div className="r-eyebrow">YOUR GYM-BTI RESULT</div>
+        <div className="r-char-wrap">
+          <div className="r-char-img"><img src={p.img} alt={p.name}/></div>
+        </div>
+        <div className="r-code">{p.code}</div>
+        <div className="r-name">{p.name}</div>
+        <div className="r-mbti-badge">
+          {mbti.split('').map((l, i) => (
+            <div key={i} className="r-mbti-letter">{l}</div>
+          ))}
+        </div>
+        <div className="r-quote">{p.quote}</div>
+      </div>
+
+      <div className="r-cards">
+        {/* Dimension bars */}
+        <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.3s both' }}>
+          <div className="r-card-header">
+            <div className="r-card-icon" style={{background:'#FFF8ED'}}>📊</div>
+            <div className="r-card-title">DIMENSION ANALYSIS</div>
+          </div>
+          {Object.entries(dims).map(([key, d], i) => {
+            const total = d.left + d.right;
+            const leftPct = total > 0 ? Math.round((d.left/total)*100) : 50;
+            const rightPct = 100 - leftPct;
+            const winnerIsLeft = d.winner === d.leftLabel;
+            return (
+              <div key={key} className="r-dim-row" style={{ animation:`fadeUp 0.5s ease ${0.4+i*0.1}s both` }}>
+                <div className="r-dim-labels">
+                  <span className={`r-dim-label ${winnerIsLeft?'active':'inactive'}`}
+                        style={winnerIsLeft?{color:d.color}:{}}>
+                    {d.leftLabel} {leftPct}%
+                  </span>
+                  <span className={`r-dim-label ${!winnerIsLeft?'active':'inactive'}`}
+                        style={!winnerIsLeft?{color:d.color}:{}}>
+                    {rightPct}% {d.rightLabel}
+                  </span>
+                </div>
+                <div className="r-dim-track">
+                  {winnerIsLeft ? (
+                    <div className="r-dim-fill left" style={{
+                      width:leftPct+'%', background:d.color,
+                      animationDelay:`${0.5+i*0.1}s`
+                    }}/>
+                  ) : (
+                    <div className="r-dim-fill right" style={{
+                      width:rightPct+'%', background:d.color,
+                      animationDelay:`${0.5+i*0.1}s`
+                    }}/>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Profile */}
+        <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.5s both' }}>
+          <div className="r-card-header">
+            <div className="r-card-icon" style={{background:'#E8D5F5'}}>🔍</div>
+            <div className="r-card-title">PERSONALITY PROFILE</div>
+          </div>
+          <div className="r-card-body">{p.desc}</div>
+        </div>
+
+        {/* Traits */}
+        <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.6s both' }}>
+          <div className="r-card-header">
+            <div className="r-card-icon" style={{background:'#C8F7D5'}}>⚡</div>
+            <div className="r-card-title">CORE TRAITS</div>
+          </div>
+          <div className="r-traits-grid">
+            {p.traits.map((t, i) => (
+              <div key={i} className="r-trait-item">
+                <div className="r-trait-label">{t}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Advice */}
+        <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.7s both' }}>
+          <div className="r-card-header">
+            <div className="r-card-icon" style={{background:'#BBDEFB'}}>💡</div>
+            <div className="r-card-title">GROWTH ADVICE</div>
+          </div>
+          <div className="r-card-body">{p.advice}</div>
+        </div>
+
+        {/* Compatibility */}
+        {(bestP || worstP) && (
+          <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.8s both' }}>
+            <div className="r-card-header">
+              <div className="r-card-icon" style={{background:'#FFE0CC'}}>🤝</div>
+              <div className="r-card-title">COMPATIBILITY</div>
+            </div>
+            <div className="r-match-grid">
+              {bestP && (
+                <div className="r-match-card">
+                  <div className="r-match-label best">BEST MATCH</div>
+                  <div className="r-match-img"><img src={bestP.img} alt={bestP.name}/></div>
+                  <div className="r-match-name">{bestP.name}</div>
+                </div>
+              )}
+              {worstP && (
+                <div className="r-match-card">
+                  <div className="r-match-label worst">RIVAL</div>
+                  <div className="r-match-img"><img src={worstP.img} alt={worstP.name}/></div>
+                  <div className="r-match-name">{worstP.name}</div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Actions */}
+      <div className="r-actions" style={{ animation:'fadeUp 0.6s ease 0.9s both' }}>
+        <button className="btn-primary" onClick={() => setShowShare(true)}>
+          分享我的GYM-BTI →
+        </button>
+        <button className="btn-secondary" onClick={onRetry}>
+          重新测试
+        </button>
+      </div>
+
+      {/* Share overlay */}
+      {showShare && (
+        <div className="share-overlay" onClick={() => setShowShare(false)}>
+          <div className="share-card" onClick={e => e.stopPropagation()}>
+            <button className="share-close" onClick={() => setShowShare(false)}>✕</button>
+            <div className="share-char-img"><img src={p.img} alt={p.name}/></div>
+            <div style={{fontFamily:'var(--font-mono)',fontSize:'12px',color:'var(--accent)',letterSpacing:'2px',marginBottom:'2px'}}>{p.code}</div>
+            <div className="share-name">{p.name}</div>
+            <div className="share-quote">"{p.quote}"</div>
+            <button className="btn-primary" onClick={handleCopy} style={{fontSize:'14px',padding:'12px'}}>
+              复制分享文案
+            </button>
+            <div className="share-footer">
+              截图分享给朋友，看看 ta 是什么健身房生物 🏋️
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   APP
+   ═══════════════════════════════════════ */
+function App() {
+  const [page, setPage] = useState('start');
+  const [qi, setQi] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [result, setResult] = useState(null);
+
+  const handleStart = () => { setPage('question'); setQi(0); setAnswers({}); };
+  const handleAnswer = (optIdx) => {
+    const na = { ...answers, [qi]: optIdx };
+    setAnswers(na);
+    if (qi < QUESTIONS.length - 1) {
+      setQi(qi + 1);
+    } else {
+      setPage('calc');
+      const arr = [];
+      for (let i = 0; i < QUESTIONS.length; i++) arr.push(na[i] ?? 0);
+      setTimeout(() => {
+        setResult(calcResult(arr));
+        setPage('result');
+      }, 3500);
+    }
+  };
+  const handleBack = () => { if (qi > 0) setQi(qi - 1); };
+  const handleRetry = () => { setPage('start'); setQi(0); setAnswers({}); setResult(null); window.scrollTo(0,0); };
+
+  return (
+    <div className="app">
+      {page === 'start' && <StartPage onStart={handleStart}/>}
+      {page === 'question' && <QuestionPage qi={qi} answers={answers} onAnswer={handleAnswer} onBack={handleBack}/>}
+      {page === 'calc' && <CalcPage/>}
+      {page === 'result' && result && <ResultPage result={result} onRetry={handleRetry}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
