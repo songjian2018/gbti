@@ -399,6 +399,98 @@ html,body { width:100%; min-height:100vh; overflow-x:hidden; font-family:var(--f
 .r-match-img img { width:100%; height:100%; object-fit:cover; }
 .r-match-name { font-size:13px; font-weight:700; }
 
+/* Product Recommendations */
+.r-shop-section { padding:0 20px; margin-bottom:16px; }
+.r-shop-header {
+  display:flex; align-items:center; gap:8px; margin-bottom:14px;
+}
+.r-shop-icon {
+  width:28px; height:28px; border-radius:8px; border:1.5px solid var(--ink);
+  display:flex; align-items:center; justify-content:center; font-size:14px;
+  box-shadow:1px 1px 0 var(--ink); flex-shrink:0; background:#FFF0E6;
+}
+.r-shop-title {
+  font-family:var(--font-mono); font-size:11px; font-weight:700;
+  letter-spacing:2px; color:var(--ink-2);
+}
+.r-shop-subtitle {
+  font-size:13px; color:var(--ink-3); margin-bottom:14px; line-height:1.6;
+}
+.r-shop-grid { display:flex; flex-direction:column; gap:10px; }
+.r-shop-card {
+  display:flex; align-items:center; gap:14px;
+  background:var(--surface); border:2px solid var(--ink);
+  border-radius:var(--radius-sm); padding:14px 16px;
+  box-shadow:var(--shadow-sm); cursor:pointer;
+  transition:all 0.15s; text-decoration:none; color:inherit;
+  position:relative; overflow:hidden;
+}
+.r-shop-card:active { transform:translate(1px,1px); box-shadow:1px 1px 0px var(--ink); }
+.r-shop-card:hover { background:var(--accent-soft); }
+.r-shop-card::after {
+  content:''; position:absolute; top:0; right:0;
+  width:0; height:0; border-style:solid;
+  border-width:0 28px 28px 0;
+  border-color:transparent var(--accent) transparent transparent;
+}
+.r-shop-emoji {
+  width:44px; height:44px; border-radius:12px;
+  border:1.5px solid var(--ink-4); background:var(--bg-warm);
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+/* Featured product card with real image */
+.r-shop-card.featured {
+  flex-direction:column; align-items:stretch; gap:0; padding:0;
+}
+.r-shop-card.featured .r-shop-img-wrap {
+  width:100%; overflow:hidden; border-bottom:2px solid var(--ink);
+  background:var(--bg-warm); position:relative;
+}
+.r-shop-card.featured .r-shop-img-wrap img {
+  width:100%; height:auto; display:block;
+}
+.r-shop-card.featured .r-shop-img-wrap .r-shop-platform-float {
+  position:absolute; top:10px; left:10px;
+  font-size:10px; font-family:var(--font-mono); font-weight:700;
+  padding:3px 8px; border-radius:6px; border:1.5px solid var(--ink);
+  box-shadow:1px 1px 0 var(--ink);
+}
+.r-shop-card.featured .r-shop-bottom {
+  padding:14px 16px; display:flex; align-items:center; gap:10px;
+}
+.r-shop-card.featured .r-shop-info { flex:1; }
+.r-shop-card.featured .r-shop-name { font-size:15px; }
+.r-shop-card.featured::after { border-width:0 32px 32px 0; }
+.r-shop-info { flex:1; min-width:0; }
+.r-shop-name {
+  font-size:14px; font-weight:700; color:var(--ink);
+  margin-bottom:3px; display:flex; align-items:center; gap:6px;
+}
+.r-shop-name .r-shop-platform {
+  font-size:10px; font-family:var(--font-mono); font-weight:700;
+  padding:1px 6px; border-radius:4px; white-space:nowrap;
+}
+.r-shop-platform.tmall { background:#FF0036; color:#FFF; }
+.r-shop-platform.taobao { background:#FF5000; color:#FFF; }
+.r-shop-desc {
+  font-size:12px; color:var(--ink-3); line-height:1.5;
+  overflow:hidden; text-overflow:ellipsis;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+}
+.r-shop-arrow {
+  font-size:16px; color:var(--ink-3); flex-shrink:0;
+  font-family:var(--font-mono); font-weight:700;
+}
+.r-shop-more {
+  display:flex; align-items:center; justify-content:center;
+  gap:6px; margin-top:10px; padding:12px;
+  border:1.5px dashed var(--ink-4); border-radius:var(--radius-sm);
+  font-size:13px; color:var(--ink-3); cursor:pointer;
+  text-decoration:none; transition:all 0.15s;
+}
+.r-shop-more:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+
 /* Action buttons */
 .r-actions { padding:0 20px; margin-top:8px; }
 .btn-primary {
@@ -736,6 +828,112 @@ const P_BY_CODE = {};
 PERSONALITIES.forEach(p => { P_BY_CODE[p.code] = p; });
 
 /* ═══════════════════════════════════════
+   PRODUCT RECOMMENDATIONS
+   ═══════════════════════════════════════ */
+const PRODUCT_RECS = {
+  "YLKL": [
+    { emoji:"🏋️", name:"可调节哑铃套装", desc:"家用专业级可调节哑铃，满足你对重量精确控制的执念", platform:"tmall", query:"可调节哑铃套装专业", img:"https://img.alicdn.com/imgextra/i2/1067106875/O1CN01CPSgOf20eo4tkesZY_!!4611686018427380283-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=980751010530", price:"87.14" },
+    { emoji:"📋", name:"健身训练日志本", desc:"精确记录每组每次的训练数据，堪比论文级别的严谨", platform:"taobao", query:"健身训练日志本记录" },
+    { emoji:"🥤", name:"乳清蛋白粉 增肌", desc:"高纯度乳清蛋白，训练后30分钟黄金窗口不可错过", platform:"tmall", query:"乳清蛋白粉增肌" }
+  ],
+  "YJCP": [
+    { emoji:"🧘", name:"天然橡胶瑜伽垫", desc:"6mm厚度、防滑纹理、环保材质——满足你的一切挑剔", platform:"taobao", query:"天然橡胶瑜伽垫防滑", img:"https://img.alicdn.com/imgextra/i3/2222200992846/O1CN01BKdPRL1WtWKoczef0_!!2222200992846.jpg_q50.jpg_.webp", link:"https://item.taobao.com/item.htm?id=1037587755323", price:"256" },
+    { emoji:"🧱", name:"软木瑜伽砖", desc:"天然软木材质，辅助深度体式，提升修行仪式感", platform:"taobao", query:"软木瑜伽砖天然" },
+    { emoji:"🕯️", name:"冥想精油香薰", desc:"薰衣草+檀香配方，让每一次练习都成为灵魂的对话", platform:"tmall", query:"瑜伽冥想精油香薰" }
+  ],
+  "ZJKB": [
+    { emoji:"🎧", name:"降噪运动蓝牙耳机", desc:"组间休息必备——沉浸式刷手机体验提升200%", platform:"tmall", query:"降噪运动蓝牙耳机", img:"https://img.alicdn.com/imgextra/i4/2219003460003/O1CN016Bvya81BtQG8LuxAD_!!4611686018427386275-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=908151223276", price:"169" },
+    { emoji:"📱", name:"磁吸手机支架", desc:"夹在器械上看视频，让组间休息更加名正言顺", platform:"taobao", query:"健身手机支架磁吸" },
+    { emoji:"📖", name:"运动生理学书籍", desc:"继续扩充你的理论库，让每次摸鱼都显得有深度", platform:"taobao", query:"运动生理学书健身" }
+  ],
+  "YZDB": [
+    { emoji:"👕", name:"紧身速干运动套装", desc:"显身材、不闷汗，拍照效果翻倍的运动服", platform:"taobao", query:"紧身速干运动套装男女", img:"https://img.alicdn.com/imgextra/i1/2200687159207/O1CN01sd0MUf2HsrbqIHP18_!!2200687159207.jpg_q50.jpg_.webp", link:"https://item.taobao.com/item.htm?id=884498157137", price:"289.06" },
+    { emoji:"👟", name:"高颜值训练鞋", desc:"不止是鞋，是你每日健身OOTD的灵魂单品", platform:"tmall", query:"高颜值健身训练鞋" },
+    { emoji:"📸", name:"便携三脚架手机架", desc:"完美角度记录每一个训练瞬间，朋友圈素材制造机", platform:"taobao", query:"手机三脚架自拍健身" }
+  ],
+  "CSDZ": [
+    { emoji:"💪", name:"引体向上助力带", desc:"在冥想与悬挂之间找到平衡，辅助你完成精神对话", platform:"tmall", query:"引体向上助力带弹力", img:"https://img.alicdn.com/imgextra/i4/4114207935/O1CN01OJ4oGG28UHusloqRt_!!4611686018427385023-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=1038070059312", price:"104.8" },
+    { emoji:"🤲", name:"液态镁粉防滑", desc:"握得更稳，挂得更久，让每一次悬挂都更从容", platform:"tmall", query:"液态镁粉健身防滑" },
+    { emoji:"✍️", name:"冥想手账本", desc:"记录训练中的灵感与顿悟，身体与灵魂的双重修行", platform:"taobao", query:"冥想手账本日记" }
+  ],
+  "JMGC": [
+    { emoji:"🔫", name:"专业筋膜枪", desc:"第四把不嫌多——这款转速更高、噪音更低", platform:"tmall", query:"专业筋膜枪深层肌肉", img:"https://gw.alicdn.com/imgextra/O1CN01Xu4EJP1ZagtbuZYUz_!!2206742223211-0-picasso.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=850554297305", price:"2897" },
+    { emoji:"⌚", name:"专业运动手表", desc:"GPS+心率+血氧，数据控的完美科技伴侣", platform:"tmall", query:"专业运动手表GPS心率" },
+    { emoji:"🦵", name:"专业运动护膝", desc:"全方位关节保护，装备党的标配不能少", platform:"tmall", query:"专业运动护膝健身" }
+  ],
+  "JSFQ": [
+    { emoji:"💊", name:"氮泵预锻炼补剂", desc:"让你的能量和声音一样充沛，全场最嗨的存在", platform:"taobao", query:"氮泵预锻炼补剂健身", img:"https://img.alicdn.com/imgextra/i1/260267406/O1CN01m8VDPI24a0MtL4w0H_!!260267406.jpg_q50.jpg_.webp", link:"https://item.taobao.com/item.htm?id=712110072671", price:"225.7" },
+    { emoji:"🔊", name:"便携蓝牙音箱", desc:"给整个健身房加BGM，让你的嗓子休息一下", platform:"tmall", query:"便携蓝牙音箱运动" },
+    { emoji:"🧤", name:"健身训练手套", desc:"保护你热情加油时用力过猛的双手", platform:"taobao", query:"健身训练手套防滑" }
+  ],
+  "PBJS": [
+    { emoji:"🎧", name:"骨传导运动耳机", desc:"追剧神器，不入耳设计让散步更安全", platform:"tmall", query:"骨传导运动耳机", img:"https://img.alicdn.com/imgextra/i4/2121207515/O1CN01PN0nSX25NvZJUq397_!!4611686018427383515-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=816674978270", price:"1111.02" },
+    { emoji:"👟", name:"缓震跑步鞋", desc:"3.5-4.5速度区间的最佳伴侣，关节友好认证", platform:"tmall", query:"缓震跑步鞋舒适" },
+    { emoji:"🧦", name:"专业运动减震袜", desc:"保护你在跑步机上佛系行走的每一步", platform:"taobao", query:"专业运动减震袜跑步" }
+  ],
+  "CHSZ": [
+    { emoji:"📊", name:"智能体脂秤", desc:"用数据证明划水也是有效果的", platform:"tmall", query:"智能体脂秤", img:"https://img.alicdn.com/imgextra/i1/2210898759064/O1CN01nKiHcu2GpN4kIobjZ_!!4611686018427383192-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=646069045036", price:"388" },
+    { emoji:"💧", name:"大容量运动水壶", desc:"45分钟不能白待——至少要喝够水", platform:"tmall", query:"大容量运动水壶健身" },
+    { emoji:"🩳", name:"速干运动短裤", desc:"轻便透气，让最小投入也能有仪式感", platform:"taobao", query:"速干运动短裤男女" }
+  ],
+  "DBFG": [
+    { emoji:"🥤", name:"分离乳清蛋白粉", desc:"蛋白质含量>90%，品鉴师的高端之选", platform:"tmall", query:"分离乳清蛋白粉高纯度", img:"https://img.alicdn.com/imgextra/i4/2221682722031/O1CN01Q6CV4I1QsFXdVHa6Z_!!4611686018427380975-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.hk/hk/item.htm?id=1025705900387", price:"899" },
+    { emoji:"⚖️", name:"厨房食物电子秤", desc:"精确到0.1g，让每一餐的宏量营养素无所遁形", platform:"tmall", query:"厨房食物电子秤精准" },
+    { emoji:"🍱", name:"健身餐盒分格", desc:"蛋白质、碳水、脂肪分区明确，强迫症的福音", platform:"taobao", query:"健身餐盒分格便当盒" }
+  ],
+  "SDJZ": [
+    { emoji:"👞", name:"硬底举重鞋", desc:"稳如磐石的底盘，配得上你的王座", platform:"taobao", query:"硬底举重鞋深蹲", img:"https://img.alicdn.com/imgextra/i1/2168494553/O1CN01UK0Z8q1jVKG8MlNZ0_!!2168494553.jpg_q50.jpg_.webp", link:"https://item.taobao.com/item.htm?id=644500504275", price:"215" },
+    { emoji:"👖", name:"深蹲训练短裤", desc:"四面弹面料，深蹲到底也不尴尬", platform:"tmall", query:"深蹲训练短裤弹力" },
+    { emoji:"🦵", name:"加厚杠铃护垫", desc:"保护你的斜方肌，让深蹲更舒适", platform:"taobao", query:"加厚杠铃护垫深蹲" }
+  ],
+  "LJBY": [
+    { emoji:"🏥", name:"运动护腕护肘套装", desc:"保护你每次「再来一个」时拼命的关节", platform:"tmall", query:"运动护腕护肘套装健身", img:"https://img.alicdn.com/imgextra/i1/720252377/O1CN01gW7a2r1TQiI9oxyeo_!!720252377.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=720682839175", price:"51" },
+    { emoji:"💪", name:"弹力助力带", desc:"突破极限的好帮手，让最后一个rep不再孤单", platform:"taobao", query:"健身弹力助力带" },
+    { emoji:"💊", name:"氨基酸BCAA", desc:"加速恢复，让你下次突破PR来得更快", platform:"tmall", query:"BCAA氨基酸运动恢复" }
+  ],
+  "QPCL": [
+    { emoji:"🍳", name:"空气炸锅", desc:"无油烹饪，让欺骗餐的罪恶感降低80%", platform:"tmall", query:"空气炸锅家用", img:"https://img.alicdn.com/imgextra/i4/2455066042/O1CN013px9Ur1uVI2kfCP8W_!!2455066042.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=690985313710", price:"299.2" },
+    { emoji:"🍪", name:"低卡高蛋白零食", desc:"合理化每一口的理论基础——这是训练日碳循环", platform:"tmall", query:"低卡高蛋白零食健身" },
+    { emoji:"📒", name:"热量计算器手账", desc:"记录每一顿欺骗餐的理论依据，有理有据", platform:"taobao", query:"饮食记录手账热量" }
+  ],
+  "SLYZ": [
+    { emoji:"🥗", name:"高颜值沙拉碗", desc:"ins风设计，让你的沙拉艺术品有一个配得上的展台", platform:"tmall", query:"高颜值沙拉碗ins风", img:"https://img.alicdn.com/imgextra/i2/2218922071598/O1CN01Eol30M1Nfw1AYiwyR_!!4611686018427385390-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=855667103805", price:"22.1" },
+    { emoji:"🥑", name:"牛油果切割器", desc:"完美切面一刀成型，每一张照片都是大片", platform:"taobao", query:"牛油果切割器工具" },
+    { emoji:"🌿", name:"有机超级食物粉", desc:"奇亚籽+螺旋藻+小麦草，让沙拉的营养层次更丰富", platform:"tmall", query:"有机超级食物粉奇亚籽" }
+  ],
+  "NCHT": [
+    { emoji:"🍵", name:"无糖茶饮礼盒", desc:"用无糖茶替代奶茶，罪恶感减半，排行榜照上", platform:"tmall", query:"无糖茶饮料礼盒", img:"https://img.alicdn.com/imgextra/i4/725677994/O1CN01PzSv9p28vJHIq9V8p_!!725677994.jpg_q50.jpg_.webp", link:"https://chaoshi.detail.tmall.com/item.htm?id=1033738304613", price:"66.2" },
+    { emoji:"🏃", name:"跑步腰包手机袋", desc:"赎罪跑步的标配，装下手机和你的罪恶感", platform:"taobao", query:"跑步腰包手机袋" },
+    { emoji:"⌚", name:"运动卡路里手环", desc:"精确计算赎罪需要的运动量，让每杯奶茶都能被抵消", platform:"tmall", query:"运动手环卡路里消耗" }
+  ],
+  "DCBG": [
+    { emoji:"🍫", name:"高蛋白能量棒", desc:"一根解决一餐，效率就是你的信仰", platform:"tmall", query:"高蛋白能量棒代餐", img:"https://img.alicdn.com/imgextra/i3/6000000003040/O1CN01aUWG4T1YKNAteaHwU_!!6000000003040-0-sm.jpg_q50.jpg_.webp", link:"https://chaoshi.detail.tmall.com/item.htm?id=842500270860", price:"89.3" },
+    { emoji:"🥛", name:"代餐奶昔", desc:"30秒准备完成的一餐，时间优化的极致方案", platform:"tmall", query:"代餐奶昔饱腹" },
+    { emoji:"💊", name:"综合维生素片", desc:"用一片药丸覆盖所有微量营养素，效率主义终极形态", platform:"tmall", query:"综合维生素片运动" }
+  ],
+  "GBTZ": [
+    { emoji:"🤸", name:"专业跳绳", desc:"经典有氧训练器材，致敬操场上的那段青春", platform:"tmall", query:"专业跳绳健身", img:"https://img.alicdn.com/imgextra/i2/2221179618064/O1CN017U4njV29RMzoiqrOr_!!4611686018427380496-0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=992446311207", price:"21.9" },
+    { emoji:"🏋️", name:"包胶小哑铃", desc:"在广播体操基础上加点负重，经典可以是起点", platform:"tmall", query:"包胶哑铃家用小重量" },
+    { emoji:"👕", name:"复古运动套装", desc:"经典红白蓝配色，穿上就是校运会MVP的感觉", platform:"taobao", query:"复古运动套装国潮" }
+  ],
+  "GYDY": [
+    { emoji:"🧤", name:"防滑运动手套", desc:"保护你在单杠上大回环的双手", platform:"tmall", query:"防滑运动手套单杠", img:"https://img.alicdn.com/imgextra/i2/2218087100592/O1CN01qr3l1Q1GFBZinsDfZ_!!4611686018427383984-2-item_pic.png_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=827264383945", price:"29.9" },
+    { emoji:"💪", name:"握力器训练器", desc:"提升握力，让你挂得更久、耍得更帅", platform:"taobao", query:"握力器训练器专业" },
+    { emoji:"🎒", name:"户外运动双肩包", desc:"装上水壶和毛巾，去征服小区里的每一根单杠", platform:"tmall", query:"户外运动双肩包轻便" }
+  ],
+  "JJDT": [
+    { emoji:"💪", name:"弹力带套装", desc:"零噪音居家训练神器，不会吵到沙发上的猫", platform:"tmall", query:"弹力带套装健身家用", img:"https://gw.alicdn.com/imgextra/O1CN01KNJN8y2LY29RRLi49_!!3937219703-0-C2M.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=1019516015686", price:"32.08" },
+    { emoji:"🧘", name:"加厚家用瑜伽垫", desc:"保护你和地毯之间的最后一道防线", platform:"tmall", query:"加厚瑜伽垫家用防滑" },
+    { emoji:"📱", name:"平板支架", desc:"跟着B站UP主训练时，解放双手的关键装备", platform:"taobao", query:"平板支架可调节" }
+  ],
+  "WXBS": [
+    { emoji:"🎮", name:"手机摇步器", desc:"你懂的——排行榜第一名的终极秘密武器", platform:"tmall", query:"手机摇步器", img:"https://img.alicdn.com/imgextra/i1/840730367/O1CN01HUhClw1Ea8C8JtP5K_!!0-item_pic.jpg_q50.jpg_.webp", link:"https://detail.tmall.com/item.htm?id=718436062219", price:"50" },
+    { emoji:"⌚", name:"高灵敏运动手环", desc:"最新款计步算法，灵敏度提升300%", platform:"tmall", query:"运动手环计步高灵敏" },
+    { emoji:"👟", name:"轻量计步跑鞋", desc:"每一步都被精确记录，排行榜冲分利器", platform:"tmall", query:"轻量跑步鞋" }
+  ]
+};
+
+/* ═══════════════════════════════════════
    SCORING ENGINE
    ═══════════════════════════════════════ */
 function calcResult(answers) {
@@ -1023,6 +1221,44 @@ function ResultPage({ result, onRetry }) {
           </div>
           <div className="r-card-body">{p.desc}</div>
         </div>
+
+        {/* Product Recommendation - Single Featured Product */}
+        {PRODUCT_RECS[p.code] && PRODUCT_RECS[p.code][0] && PRODUCT_RECS[p.code][0].img && (
+          <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.55s both', padding:0, background:'linear-gradient(135deg, #FFF8ED 0%, #FFFFFF 100%)' }}>
+            <div className="r-card-header" style={{padding:'16px 20px 0'}}>
+              <div className="r-card-icon" style={{background:'#FFF0E6'}}>🛒</div>
+              <div className="r-card-title">FOR YOU · 专属好物推荐</div>
+            </div>
+            <div style={{fontSize:'13px',color:'var(--ink-3)',padding:'8px 20px 14px',lineHeight:'1.6'}}>
+              根据你的「{p.name}」人格，为你精选 ↓
+            </div>
+            <a className="r-shop-card featured"
+               href={PRODUCT_RECS[p.code][0].link}
+               target="_blank" rel="noopener noreferrer"
+               style={{border:'none', boxShadow:'none', borderRadius:0, borderTop:'2px solid var(--ink)'}}>
+              <div className="r-shop-img-wrap" style={{borderBottom:'none'}}>
+                <img src={PRODUCT_RECS[p.code][0].img} alt={PRODUCT_RECS[p.code][0].name} loading="lazy"/>
+                <span className="r-shop-platform-float"
+                      style={{background: PRODUCT_RECS[p.code][0].platform === 'tmall' ? '#FF0036' : '#FF5000', color:'#FFF'}}>
+                  {PRODUCT_RECS[p.code][0].platform === 'tmall' ? '天猫' : '淘宝'}
+                </span>
+              </div>
+              <div className="r-shop-bottom" style={{borderTop:'2px solid var(--ink)'}}>
+                <div className="r-shop-info">
+                  <div className="r-shop-name">{PRODUCT_RECS[p.code][0].name}</div>
+                  <div className="r-shop-desc">{PRODUCT_RECS[p.code][0].desc}</div>
+                  {PRODUCT_RECS[p.code][0].price && (
+                    <div style={{marginTop:'8px',fontSize:'15px',fontWeight:'700',color:'#FF2442',letterSpacing:'0.3px'}}>
+                      <span style={{fontSize:'12px',fontWeight:'500',color:'#FF6B6B',marginRight:'4px'}}>平台补贴后：</span>
+                      <span style={{fontFamily:'DIN Alternate, Arial, sans-serif', fontSize:'22px'}}>￥{PRODUCT_RECS[p.code][0].price}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="r-shop-arrow" style={{fontSize:'18px',color:'var(--accent)'}}>去看看 →</div>
+              </div>
+            </a>
+          </div>
+        )}
 
         {/* Traits */}
         <div className="r-card" style={{ animation:'fadeUp 0.6s ease 0.6s both' }}>
